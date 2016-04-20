@@ -1,0 +1,60 @@
+<html>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="http://www.w3cschool.cc/try/angularjs/1.2.5/angular.min.js"></script>
+<script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.js"></script>
+
+<script>
+    angular.module('myApp', ['ui.bootstrap']).controller('pageDemo', function ($scope) {
+        $scope.pageChanged = function(page) {
+            alert(page);
+        };
+        $scope.maxSize = 7;
+        $scope.totalItems = 99;
+        $scope.currentPage = 1;
+        $scope.bigTotalItems = 180;
+        $scope.bigCurrentPage = 1;
+    });
+    // 如果调取服务器动态数据  就要这样写
+
+    // 所有数据 分页
+    /*
+    $http.get(url + "admin/users").success(function (data) {
+        $scope.data = data.data.data;           // 读取数据
+        $scope.maxPage = data.data.maxPage;     // 最大页数
+
+        // 动态设置最大条目和每页显示条目数
+        $scope.maxSize = 10;
+        $scope.totalItems = $scope.maxItems;
+        $scope.currentPage = 1;
+    });
+
+    // 查询数据 分页 参数为查询条件
+    $scope.searchUser = function() {
+        $http.get(url + "admin/users", {params: {name: $scope.name, type: $scope.type}}).success(function (data) {
+            $scope.data = data.data.data;
+            $scope.maxPage = data.data.maxPage;  // 最大页数
+
+            $scope.maxSize = 10;
+            $scope.totalItems = $scope.maxItems;
+            $scope.currentPage = 1;
+        });
+    };
+    // 单击分页调取数据 界面中的ng-change()传递给后台当前页面
+    $scope.pageChanged = function(page) {
+        $http.get(url + "admin/users", {params: {page: page}}).success(function (data) {
+            $scope.data = data.data.data;
+        });
+    };
+    */
+</script>
+
+<body ng-app="myApp">
+<section class="row">
+    <section ng-controller="pageDemo" class="col-md-6" style="margin:40px auto; float:none; background:#fff; padding:30px;">
+        <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged(currentPage)" previous-text="上一页" next-text="下一页"></pagination>
+    </section>
+</section>
+
+</body>
+</html>
