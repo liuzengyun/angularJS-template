@@ -62,7 +62,7 @@
     <section ng-controller="pageDemo" class="col-md-6" style="margin:40px auto; float:none; background:#fff; padding:30px;">
         <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged(currentPage)" previous-text="上一页" next-text="下一页"></pagination>
         <!--分页 有省略号的分页-->
-        <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+        <pagination total-items="bigTotalItems" ng-change="pageChanged(bigCurrentPage)" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
     </section>
 </section>
 
