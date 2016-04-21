@@ -1,0 +1,17 @@
+cloud为angularJS app名称
+// 自定义分割过滤 名称splite
+cloud.filter('splite', function () {
+    return function (str) {// 传递的str为要处理的字符串 str | splite
+        var arr = str.split("##");
+        var finalString = "";
+        if (arr.length == 1) {
+            finalString = arr[0];
+        }
+        else {
+            for (var i = 0; i < arr.length; i++) {
+                finalString += i + 1 + ". " + arr[i] + " ";
+            }
+        }
+        return finalString;
+    }
+});
