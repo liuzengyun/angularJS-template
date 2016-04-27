@@ -1,0 +1,61 @@
+// 控制器端 上传文件
+qcgw.controller("fileCtrl", ['$scope', 'Upload', function ($scope, Upload) {
+    $scope.title = "";
+    $scope.content = "";
+    $scope.a_url = "";
+    $scope.fileInfo = $scope.file;
+    $scope.submit = function () {
+        $scope.upload($scope.file);
+    };
+    $scope.upload = function (file) {
+        Upload.upload({
+            url: url + 'auth/news',
+            data: {file: file, uid: uid, a_url: $scope.a_url, content: $scope.content, title: $scope.title},
+            //成功的情况
+        }).progress(function (evt) {
+            //这就是进度的对象
+            console.log(evt);
+            //进度条
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.pro = progressPercentage;
+        }).success(function (data, status, headers, config) {
+            $(".progress-striped").show();
+            $scope.progress = $scope.pro;
+            //失败的情况
+            setTimeout(function() {
+                if($scope.progress == 100) {
+                    window.location.reload();
+                }
+            }, 1000);
+        }).error(function (data) {
+            console.log(data);
+        })
+    }
+
+}]);
+
+
+// 界面
+<div class="modal-body" ng-controller="fileCtrl">
+                <form name="form">
+                    上传图片:
+                    <div class="btn btn-default" ngf-select ng-model="file" ngf-max-size="20MB">请选择文件</div>
+                    <span style="margin-right: 20px;">{{file.name}}</span>
+                    <div style="clear: both"></div>
+                    <!--这是现实进度条的部分-->
+                    <div class="progress progress-striped" style="display: none; margin-top: 20px">
+                        <div class="progress-bar progress-bar-success" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width:{{progress}}%">
+                            <span class="sr-only">90% 完成（成功）</span>
+                        </div>
+                    </div>
+                    <!--/这是现实进度条的部分-->
+                    <p class="text-right">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">关闭
+                        </button>
+                        <button class="btn btn-primary" id="btn" type="submit" ng-click="submit()">提交</button>
+                    </p>
+                </form>
+            </div>
