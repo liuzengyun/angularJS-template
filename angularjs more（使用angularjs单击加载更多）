@@ -1,0 +1,54 @@
+1. 返回数据是分页的 返回总页数和总条目数 totalPage totalItems
+2. 首先调用接口，读取一页数据，$scope.data = data 下面设置更多按钮，绑定ng-click=""事件。
+3. 定义变量 i = 1；
+4. 单击四件 i++;
+5. 调用接口，传递参数i调取当前页数据 $scope.more = data
+6. 将读取的新数据追加到第一次调取的数据中
+7. 
+  if(i <= totalPage) {
+    for(var j = 0; j < $scope.more.length; j++) {
+        $scope.data.push($scope.more[i]);
+    }
+  }
+  else {
+    alert("没有更多信息了");
+  }
+  
+  
+  
+项目中的实例代码
+// 定义控制器,来加载数据
+function dynamicCtrl($scope, $http) {
+    // 这个初始数据先调取第一页十条数据
+    $http.get(url + 'admin/records', {params: {page: 1}}).success(function (data) {
+        $scope.newsInit = data.data.data;
+        console.log(data.data.data);
+    });
+    // 在调取十条信息
+    $http.get(url + 'admin/records', {params: {page: 2}}).success(function (data) {
+        $scope.news = data.data.data;
+        console.log(data);
+        console.log(data.data.data);
+    });
+    var j = 2;
+    // 定义无限滚动追加代码, 页码从2开始
+    $scope.loadMore = function () {
+        // 每次滚动分页加1
+        j = j + 1;
+        // 调用一次分页显示几条数据
+        $http.get(url + 'admin/records', {params: {page: j}}).success(function (data) {
+            console.log(data);
+            var newsTwo = data.data.data;
+            var maxPage = data.data.maxPage;
+            $scope.maxPage = data.data.maxPage;
+            var maxRows = data.data.maxRows;
+            //获取最大分页数,如果小于这个页数那么滚动就不在追加
+            if (j <= maxPage) {
+                for (var i = 0; i < newsTwo.length; i++) {
+                    // 将数据追加到界面显示数组中
+                    $scope.news.push(newsTwo[i]);
+                }
+            }
+        });
+    };
+}
