@@ -13,12 +13,7 @@ qcgw.controller("fileCtrl", ['$scope', 'Upload', function ($scope, Upload) {
             data: {file: file, uid: uid, a_url: $scope.a_url, content: $scope.content, title: $scope.title},
             //成功的情况
         }).progress(function (evt) {
-            //这就是进度的对象
-            console.log(evt);
-            //进度条
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            $scope.pro = progressPercentage;
-        }).success(function (data, status, headers, config) {
+        // 上传文件进度，上传完成直接关闭窗口，刷新
             $(".progress-striped").show();
             $scope.progress = $scope.pro;
             //失败的情况
@@ -27,6 +22,8 @@ qcgw.controller("fileCtrl", ['$scope', 'Upload', function ($scope, Upload) {
                     window.location.reload();
                 }
             }, 1000);
+        }).success(function (data, status, headers, config) {
+            console.log(data);
         }).error(function (data) {
             console.log(data);
         })
